@@ -24,6 +24,7 @@ class Main:
             elif qidentry == '0':
                 self.login()
             else:
+                print(self.key())
                 print('invalid qid, please try again...')
     
     def register(self):
@@ -31,6 +32,22 @@ class Main:
 
     def login(self):
         pass
+
+    def key(self):
+        alpha = 'abcdefghijklmnopqrstuvwxyz1234567890'
+        self.keystring = ''
+        self.style = 0
+
+        for i in range(25):
+            
+            self.style = random.randint(0,1)
+
+            if self.style == 1:
+                self.keystring = str(self.keystring) + str(alpha[random.randint(0, 34)].upper())
+            else:
+                self.keystring = str(self.keystring) + str(alpha[random.randint(0,34)])
+        
+        return self.keystring
 
 
 if __name__ == '__main__':
