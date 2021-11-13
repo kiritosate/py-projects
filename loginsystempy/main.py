@@ -88,9 +88,20 @@ class Main:
         while True:
             print('======================================\n=============== REGISTER =============\n======================================\n')
             self.keystr = self.key()
+
+            
             self.new_user = input("Username: ")
-            self.new_pass = getpass.getpass("password: ")
-            self.new_pass2 = getpass.getpass("confirm password: ")
+
+            if len(self.new_user) > 5:
+                self.new_pass = getpass.getpass("password: ")
+                if len(self.new_pass) > 6: 
+                    self.new_pass2 = getpass.getpass("confirm password: ")
+                else: 
+                    print('password is weak, should be 6 or more character. try again.')
+                    os.system('pause')
+                    self.register()
+            else:
+                print('username character length should be 5 or more. try again.'), os.system('pause'), self.register()
 
             if self.new_pass == self.new_pass2: 
 
@@ -128,6 +139,7 @@ class Main:
 
             os.system('pause')
             self.ccLine()
+
     def key(self):
         alpha = 'abcdefghijklmnopqrstuvwxyz1234567890'
         self.keystring = ''
