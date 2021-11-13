@@ -8,6 +8,7 @@ except ImportError as e:
     print(e)
 
 import os
+import getpass
 
 class Main:
 
@@ -81,11 +82,52 @@ class Main:
         self.main()
 
     def register(self):
-        pass
+        '''
+        
+        '''
+        while True:
+            print('======================================\n=============== REGISTER =============\n======================================\n')
+            self.keystr = self.key()
+            self.new_user = input("Username: ")
+            self.new_pass = getpass.getpass("password: ")
+            self.new_pass2 = getpass.getpass("confirm password: ")
+
+            if self.new_pass == self.new_pass2: 
+
+                self.dbcursor.execute(f'INSERT INTO users (username, password, userskey) VALUES ("{self.new_user}", "{self.new_pass}", "{self.keystr}")')
+                self.mydb.commit()
+                self.listuser()
+                os.system('pause')
+                return False
+            else:
+                print('The password is now the same. try again')
 
     def login(self):
-        pass
 
+        while True:
+            print('===================================\n=============== LOGIN =============\n===================================\n')
+            self.username = input("username: ")
+
+            self.dbcursor.execute(f'SELECT * FROM users WHERE username="{self.username}"')
+            self.logindata = ''
+
+            for data in self.dbcursor.fetchall(): self.logindata = data
+
+            if self.logindata :
+                self.password = getpass.getpass("Password: ")
+
+                if self.password == self.logindata[2]:
+
+                    print(f"Welcome @user_{self.username}!")
+                    os.system('pause')
+                    self.main()
+                else:
+                    print(f"your password invalid. try again.")
+            else:
+                print(f"user: {self.username} does not exist. try again.")
+
+            os.system('pause')
+            self.ccLine()
     def key(self):
         alpha = 'abcdefghijklmnopqrstuvwxyz1234567890'
         self.keystring = ''
@@ -108,6 +150,10 @@ class Main:
             os.system('cls')
         except:
             os.system('clear')
+
+class Dashboard:
+    def __init__(self) -> None:
+        pass
 
 
 if __name__ == '__main__':
