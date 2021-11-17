@@ -2,11 +2,12 @@
 # by kiritosate
 
 try:
-    import random
+    
     import mysql.connector as myconnect
 except ImportError as e:
-    print(e)
+    print(e)   
 
+import random
 import os
 import getpass
 
@@ -17,7 +18,7 @@ class Main:
         self.mydb = None
         self.dbcursor=''
         
-        self.dbcon('root', 'root', 'localhost', 'loginsystempydb')
+        self.dbcon('root', 'root', 'localhost', 'pydb')
 
         print('MySqlConnection Success! At == {0}'.format(self.mydb))
 
@@ -90,8 +91,8 @@ class Main:
             self.keystr = self.key()
 
             
-            self.new_user = input("Username: ")
-
+            self.new_user = input("Type q to return.\nUsername: ")
+            if self.username == 'q': self.main()
             if len(self.new_user) > 5:
                 self.new_pass = getpass.getpass("password: ")
                 if len(self.new_pass) > 6: 
@@ -117,7 +118,9 @@ class Main:
 
         while True:
             print('===================================\n=============== LOGIN =============\n===================================\n')
-            self.username = input("username: ")
+            self.username = input("Type q to return.\nUsername: ")
+
+            if self.username == 'q': self.main()
 
             self.dbcursor.execute(f'SELECT * FROM users WHERE username="{self.username}"')
             self.logindata = ''
@@ -128,10 +131,7 @@ class Main:
                 self.password = getpass.getpass("Password: ")
 
                 if self.password == self.logindata[2]:
-
-                    print(f"Welcome @user_{self.username}!")
-                    os.system('pause')
-                    self.main()
+                    goto = Dashboard(self.logindata, self.mydb)
                 else:
                     print(f"your password invalid. try again.")
             else:
@@ -164,10 +164,33 @@ class Main:
             os.system('clear')
 
 class Dashboard:
-    def __init__(self) -> None:
+
+    def __init__(self, logindata, connect) -> None:
+
+        print(f"Welcome @user_{logindata[1]}!")
+
+        self.dashboard()
+
+    def dashboard(self):
+
+        '''
+        
+        '''
+
+        print("==========\n=DASHBOARD=\n===========\n")
+        self.entry = input("[3]show users\n[2]change password\n[1]logout\n[0]delete account: ")
+
+        if self.entry == '3': self.listuser & self.main
+        elif self.entry == '2': self.changepassword
+        elif self.entry == '1': self.logout
+        elif self.entry == '0': self.deleteaccount
+    
+    def changepassword(self):
         pass
-
-
+    def deleteaccount(self):
+        pass
+    def logout(self):
+        pass
 if __name__ == '__main__':
     Main()
 
