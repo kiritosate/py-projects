@@ -1,41 +1,222 @@
-from tkinter import *
 
+import random
+from os import system
+import time
+from urllib import request, error
+from urllib.parse import urlencode
+import requests
+import json
 
+class madLib:
 
-class main:
     def __init__(self) -> None:
         
-        self.root = Tk()
-        self.root.title("my app")
-        self.root.geometry("500x400")
+        while True:
 
-        self.root.minsize(height=400, width=500)
-        title = self.SomeLabel("Functions", 15, "bold")
-        title.pack(pady=10)
+            name = input("your name: ")
+            age = input("your age: ")
 
-        userLabel = self.SomeLabel("username", 12).pack()
+            print(f"my name is {name} i am {age}")
 
-        username = self.SomeEntry()
-        username.pack()
+class guessTheNumberComputer:
 
-        self.root.mainloop()
-    
-    def SomeLabel(self, text, size=12, weight="", bg=None, color=None):
-        '''
-            text = string
-            size = int default is 12
-            weight = string
-            bg = string
-            color = string
-        '''
-        return Label(self.root, text=text, font=("sans-serif", size, weight), bg=bg, fg=color)
-    
-    def SomeEntry(self, text=None, width=20, show=None, bg=None, size=12, color=None):
-
-        return Entry(self.root, width=width, font=("sans-serif", size),show=show, bg=bg, fg=color)
-
+    def __init__(self) -> None:
         
-    
+        while True:
+            
+            yNumber = input("choose a number from 1-5: ")
+            hNumber = random.randint(1,5)
+            if yNumber == hNumber:
+                print(f"you guessed it right! it is {yNumber}")
+            else:
+                print(f"you guessed it wrong! it is {hNumber}")
 
-if __name__ == "__main__":
-    main()
+class guessTheNumberUser:
+
+    def __init__(self) -> None:
+        
+        while True:
+
+            hNumber = input("choose your hidden number from 1-5: ")
+            cNumber = random.randint(1,5)
+
+            if cNumber == hNumber:
+                print(f"the computer guessed it right! it is {cNumber}")
+            else:
+                print(f"the computer guessed it wrong! it is {hNumber}")
+
+class rockPaperScissors:
+
+    def __init__(self) -> None:
+        
+        choices = ["Rock","Paper","Scissors"]
+
+        while True:
+            system("cls")
+            mChoice = input("[0]Rock, [1]Paper, or [2]Scrissors!: ")
+            temp = random.choice(choices)
+
+            for choice in choices:
+                print(choice+" !!")
+                time.sleep(1)
+
+
+            if temp == mChoice or temp == choices[int(mChoice)]:
+                print(f"correct!!! {temp}")
+            else:
+                print(f"wrong !! it is {temp}")
+            
+            system("pause")
+
+class countDownTimer:
+
+    def __init__(self) -> None:
+        
+        while True:
+
+            count = int(input("countdown number: "))
+
+            while count >= 0:
+                print(count)
+                time.sleep(1)
+                count-=1
+
+class passwordGenerator:
+
+    def __init__(self) -> None:
+
+        while True:
+        
+            pLength = int(input("enter password length: "))
+
+            numerics = "abcdefghijklmnopqrstuvwxyz1234567890"
+
+            password = ""
+
+            print(pLength)
+
+            while pLength>0:
+                
+                temp = random.randint(1,3)
+
+                if 1 == temp:
+                    password += numerics[random.randint(1, 35)].upper()
+                else:
+                    password += numerics[random.randint(1, 35)]
+                
+                pLength-=1
+            
+            return password
+
+class encoderDecoder:
+
+    def decode():
+
+        numerics = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+
+        while True:
+
+            string = input("enter text to decode: ")
+            key = int(input("enter a key [1-100]: "))
+            newString = ""
+
+            for char in string:
+
+                temp = numerics.index(char)
+
+                newString += numerics[temp-key]
+                
+            print(f"decoded string [ {newString} ] :key {key}")
+
+    def encode():
+
+        numerics = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+        
+        while True:
+
+            string = input("enter text to encode: ")
+            key = int(input("enter a key [1-100]: "))
+            newString = ""
+
+            for char in string:
+
+                temp = numerics.index(char)
+
+                newString += numerics[temp+key]
+                
+            print(f"encoded string [ {newString} ] :key {key}")
+
+class randomUserApi:
+
+    def __init__(self) -> None:
+        
+        global results
+
+        URL = 'https://randomuser.me/api/'
+
+        results = json.loads(requests.get(URL).content)
+
+        cleaned_results = json.dumps(results, sort_keys=True, indent=2)
+
+    def _name(self):
+
+        self._first = None
+        self._last = None
+
+        self._first = results["results"][0]["name"]["first"]
+        self._last = results["results"][0]["name"]["last"]
+
+        self._fullname = f"{self._first} {self._last}"
+
+        return self
+
+    def _picture(self):
+
+        self._large = None
+        self._medium  = None
+        self._thumbnail = None
+
+        self._large = results["results"][0]["picture"]["large"]
+        self._medium = results["results"][0]["picture"]["medium"]
+        self._thumbnail = results["results"][0]["picture"]["thumbnail"]
+
+        return self
+    
+    def _login(self):
+        
+        self._md5 = None
+        self._password = None
+        self._username = None
+
+        self._md5 = results["results"][0]["login"]["md5"]
+        self._password = results["results"][0]["login"]["password"]
+        self._username = results["results"][0]["login"]["username"]
+
+        return self
+    
+    def _info(self):
+
+        self._age = None
+        self._phone = None
+        self._gender = None
+        self._email = None
+
+        self._age = results["results"][0]["dob"]["age"]
+        self._phone = results["results"][0]["cell"]
+        self._gender = results["results"][0]["gender"]
+        self._email = results["results"][0]["email"]
+
+        return self
+
+    def _userdata(self):
+
+        self.data = []
+
+        self.data.append(self._name()._fullname)
+        self.data.append(self._info()._age)
+        self.data.append(self._info()._gender)
+        self.data.append(self._info()._email)
+        self.data.append(self._picture()._thumbnail)
+
+        return self.data
+
