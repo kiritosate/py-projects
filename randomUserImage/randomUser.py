@@ -20,7 +20,9 @@ class RandomUserData:
 
         _email = results["results"][0]["email"]
 
-        _image = results["results"][0]["picture"]["large"]
+        _image = [results["results"][0]["picture"]["thumbnail"],
+                    results["results"][0]["picture"]["medium"],
+                        results["results"][0]["picture"]["large"]]
 
         data.append(_fullname)
         data.append(_age)
