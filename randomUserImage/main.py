@@ -22,10 +22,11 @@ class MyApp:
         self.scrollbar.pack(side=RIGHT, fill=Y)
 
         self.myList = Listbox(self.tkRoot, yscrollcommand=self.scrollbar.set)
-        self.userName(100)
+        self.userName(10)
         self.myList.pack(side=LEFT, fill=BOTH)
         self.scrollbar.config(command=self.myList.yview)
-
+        self.canvas = Canvas(self.tkRoot, width = 300, height = 300)
+        self.canvas.pack(side=RIGHT, fill=BOTH)
         self.tkRoot.mainloop()
 
     def showImage(self, image_link):
@@ -48,11 +49,16 @@ class MyApp:
             l2.grid(column=i, sticky=W)
 
     def userName(self, time=1):
+        listEv = lambda link: self.listEvent(link)
 
         for i in range(time):
 
             user = rUser._userdata()
             self.myList.insert(END, user[0])
+            self.myList.bind('<<ListboxSelect>>', listEv(user[4]))
+    
+    def listEvent(self, link):
 
+        print(link)
 
 MyApp()
