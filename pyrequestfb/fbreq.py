@@ -66,16 +66,20 @@ class fbScraper:
 
         d = self.session.get(_URl+self._pdata[0]['convo_link'])
 
-        pos = self.session.post(_URl+self._pdata[0]['convo_link'], data=self.messData)
-        
-        print(pos.status_code)
-        print(pos.content)
-        print(pos.headers)
+        self.messData['sid'] = d.headers.get("sid")
+        self.messData['cid'] = d.headers.get("cid")
+        self.messData['region'] = d.headers.get("region")
+
+        print(self.messData)
+
+        pos = self.session.post(_URl+"/messages/send/", data=self.messData)
+        tem = bsoup(pos.content, "html.parser")
+
+        print(tem.prettify())
         print(pos.url)
-        print(d.url)
         #print(f"{bsoup(d.content,'html.parser').prettify()} || {d.status_code}")
 
-Client = fbScraper("dummysama", "iamprogramming05")
+Client = fbScraper("", "")
 Client._login()
 Client._parseData()
 
