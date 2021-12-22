@@ -78,8 +78,19 @@ class fbScraper:
         print(tem.prettify())
         print(pos.url)
         #print(f"{bsoup(d.content,'html.parser').prettify()} || {d.status_code}")
+    def getUid(self):
 
-Client = fbScraper("", "")
+        print(self.session.cookies.get_dict().get("c_user"))
+        print(self.session.cookies.get_dict().get("cid"))
+    
+    def now(self):
+        return int(self.time() * 1000)
+    
+    def time(self):
+        return 3123123
+
+Client = fbScraper()
 Client._login()
 Client._parseData()
+Client.getUid()
 
